@@ -44,7 +44,7 @@ public class OrderController {
 		return ResponseEntity.ok(response);
 	}
 	
-	
+	@GetMapping("/orderhistory/{userid}")
 	public ResponseEntity<Map<String, Object>> viewOrderhistory(@PathVariable Long userid){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -64,6 +64,8 @@ public class OrderController {
 		return ResponseEntity.ok(response);
 		
 	}
+	
+	
 	
 	
 	

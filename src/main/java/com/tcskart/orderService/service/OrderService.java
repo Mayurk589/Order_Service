@@ -14,7 +14,7 @@ import com.tcskart.orderService.repository.OrderRepository;
 
 
 @Service
-public class OrderService {
+public class OrderService { 
 	
 	@Autowired
 	OrderRepository orderRepo;
@@ -48,6 +48,7 @@ public class OrderService {
 			}
 			else {
 				order.setOrderStatus("Delivered");
+				orderRepo.save(order);
 			}
 			
 			return order;
