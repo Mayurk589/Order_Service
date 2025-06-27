@@ -1,6 +1,7 @@
 package com.tcskart.orderService.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -29,7 +30,7 @@ public class OrderController {
 		Map<String, Object> response = new HashMap<>();
 		
 		 Order order = orderService.trackOrderStatus(id);
-		 
+		  
 		 if(order == null) {
 			 response.put("success", true);
 			 response.put("message", "No Order Found");
@@ -42,6 +43,29 @@ public class OrderController {
 		
 		return ResponseEntity.ok(response);
 	}
+	
+	@GetMapping("/orderhistory/{userid}")
+	public ResponseEntity<Map<String, Object>> viewOrderhistory(@PathVariable Long userid){
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		List<Order> orderHistory = orderService.viewOrderhistory(userid);
+		
+		if(orderHistory == null) {
+			 response.put("success", true);
+			 response.put("message", "No Order History Found");
+		 }
+		
+		 else {
+			 response.put("success", true);
+			 response.put("message", orderHistory);
+		 }
+		
+		return ResponseEntity.ok(response);
+		
+	}
+	
+	
 	
 	
 	

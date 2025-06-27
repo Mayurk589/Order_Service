@@ -3,6 +3,8 @@ package com.tcskart.orderService.service;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,10 +40,13 @@ public class TestOrderService {
 		
         order = new Order();
 		order.setOrderId(1L);
+		order.setUserId(1L);
         order.setOrderDate(LocalDateTime.now()); 
         order.setOrderStatus("Placed");
 
 	}
+	
+//    ##########  Test cases for TrackOrderStatus method	
 	
 	 @Test
 	    public void testTrackOrderStatus_Placed() {
@@ -113,6 +118,29 @@ public class TestOrderService {
 	        
 	        assertNull(trackedOrder);  
 	    }
+	    
+	    
+//	    ##########  Test cases for ViewOrderHistory method
+	    
+	    @Test
+	    public void testViewOrderHistory() {
+	    	
+	    	List<Order> orderHistory = new ArrayList<>();
+	    	orderHistory.add(order);
+	       
+	        when(orderRepo.findByUserId(1L)).thenReturn(orderHistory);
+
+	     
+	        List<Order> trackedOrderHistory = orderService.viewOrderhistory(1L);
+
+	        
+	        assertNotNull(trackedOrderHistory);
+	        assertEquals(trackedOrderHistory, trackedOrderHistory);  
+	    }
+	    
+	    
+	
+
 	
 
 }

@@ -2,6 +2,7 @@ package com.tcskart.orderService.service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -13,7 +14,7 @@ import com.tcskart.orderService.repository.OrderRepository;
 
 
 @Service
-public class OrderService {
+public class OrderService { 
 	
 	@Autowired
 	OrderRepository orderRepo;
@@ -47,12 +48,20 @@ public class OrderService {
 			}
 			else {
 				order.setOrderStatus("Delivered");
+				orderRepo.save(order);
 			}
 			
 			return order;
 		}
 		
 		return null;
+	}
+
+	public List<Order> viewOrderhistory(Long userId) {
+		
+		List<Order> orderHistory = orderRepo.findByUserId(userId);
+		
+		return orderHistory;
 	}
 
 }
