@@ -1,0 +1,10 @@
+package com.tcskart.orderService.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.tcskart.orderService.bean.Order;
+
+
+public interface OrderRepository extends JpaRepository<Order, Long>{
+
+}
