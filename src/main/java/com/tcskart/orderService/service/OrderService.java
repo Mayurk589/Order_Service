@@ -2,6 +2,7 @@ package com.tcskart.orderService.service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -53,6 +54,13 @@ public class OrderService {
 		}
 		
 		return null;
+	}
+
+	public List<Order> viewOrderhistory(Long userId) {
+		
+		List<Order> orderHistory = orderRepo.findByUserId(userId);
+		
+		return orderHistory;
 	}
 
 }

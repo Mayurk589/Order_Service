@@ -21,6 +21,8 @@ public @Data  class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long orderId;
 	
+	private long userId;
+	
 	private double totalAmount;
 	
 	private String orderStatus;
