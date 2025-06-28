@@ -19,7 +19,7 @@ import com.tcskart.orderService.bean.Cart;
 import com.tcskart.orderService.bean.Order;
 import com.tcskart.orderService.service.OrderService;
 
-@CrossOrigin(origins = "*")  // Update this for production to limit origins.
+@CrossOrigin(origins = "*")  
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -86,4 +86,29 @@ public class OrderController {
         response.put("data", cart);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    
+    @GetMapping("/all-orderhistory")
+    public ResponseEntity<Map<String, Object>> allOrderHistory() {
+    	
+        List<Order> orderHistory = orderService.allOrderHistory();
+        
+        Collections.reverse(orderHistory);
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        if(orderHistory == null || orderHistory.isEmpty()) {
+			 response.put("success", true);
+			 response.put("message", "No Order History Found");
+		 }
+		
+		 else {
+			 Collections.reverse(orderHistory);
+			 response.put("success", true);
+			 response.put("message", orderHistory);
+		 }
+		
+		return ResponseEntity.ok(response);
+    }
+    
+    
 }
