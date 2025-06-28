@@ -137,5 +137,14 @@ public class OrderService {
 	            return null;  
 	        }
 	    }
+		
+
+		public List<Order> allOrderHistory() {
+			
+			List<Order> orderHistory = orderRepo.findAll();
+			
+			return orderHistory;
+			
+		}
 
 }
