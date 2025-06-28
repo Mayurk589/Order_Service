@@ -8,7 +8,10 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.tcskart.orderService.bean.Cart;
 import com.tcskart.orderService.bean.CartItem;
@@ -19,6 +22,9 @@ import com.tcskart.orderService.repository.OrderRepository;
 
 @Service
 public class OrderService { 
+	
+	 @Autowired
+	 private RestTemplate restTemplate; 
 	
 	@Autowired
 	OrderRepository orderRepo;
@@ -102,22 +108,34 @@ public class OrderService {
 	        orderRepo.save(order);
 	       
 	        // call the cart service for delete the cart table based on the user id
+	        deleteCartByUserId(userId);
 	        
 	        return cart; 
 	    }
 
 	    
-	    private Cart getCartByUserId(Long userId) {
+	   private void deleteCartByUserId(Long userId) {
+		   
+		    String cartServiceUrl = "http://localhost:8083/cart/delete";
 	        
-	        Cart cart = new Cart();
-	        cart.setUserId(userId);
-	        cart.setCartId(1L);
-	        cart.setTotalPrice(100.0); 
-	        
-	        cart.getCartItems().add(new CartItem(1L, userId, 101L, 2, 20.0));
-	        cart.getCartItems().add(new CartItem(2L, userId, 102L, 1, 50.0));
+	        String deleteCartUrl = cartServiceUrl + "/" + userId;
 
-	        return cart; 
+	        restTemplate.exchange(deleteCartUrl, HttpMethod.DELETE, null, Void.class);
+	    }
+
+		private Cart getCartByUserId(Long userId) {
+	        
+	        String cartServiceUrl = "http://localhost:8083/cart/view/" + userId;
+
+	        
+	        ResponseEntity<Cart> response = restTemplate.exchange(cartServiceUrl, HttpMethod.GET, null, Cart.class);
+
+	        
+	        if (response.getStatusCode().is2xxSuccessful()) {
+	            return response.getBody();  
+	        } else {
+	            return null;  
+	        }
 	    }
 
 }
