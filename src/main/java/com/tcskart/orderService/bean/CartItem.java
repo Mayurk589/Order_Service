@@ -17,14 +17,16 @@ public class CartItem {
     private Long cartId;
     private Long userId;
     private Long productId;
+    private String imgUrl;
     private Integer quantity;
     private Double price;
     private LocalDateTime addedAt;
 
-    public CartItem(Long cartId, Long userId, Long productId, Integer quantity, Double price) {
+    public CartItem(Long cartId, Long userId, Long productId,String imgUrl, Integer quantity, Double price) {
         this.cartId = cartId;
         this.userId = userId;
         this.productId = productId;
+        this.imgUrl = imgUrl;
         this.quantity = quantity;
         this.price = price;
         this.addedAt = LocalDateTime.now();

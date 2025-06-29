@@ -45,7 +45,8 @@ public class OrderController {
 			 response.put("message", order);
 		 }
 		
-		return ResponseEntity.ok(response);    }
+		return ResponseEntity.ok(response);   
+		}
 
     // View order history
     @GetMapping("/orderhistory/{userid}")
@@ -71,19 +72,12 @@ public class OrderController {
     // Place an order
     @PostMapping("/place-order/{userId}")
     public ResponseEntity<Map<String, Object>> placeOrder(@PathVariable Long userId) {
-        Cart cart = orderService.placeOrder(userId);
-        
-        if (cart == null || cart.getCartItems().isEmpty()) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("status", "error");
-            response.put("message", "Cart is empty. Cannot place order!");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
+        Order SavedOrder = orderService.placeOrder(userId);
         
         Map<String, Object> response = new HashMap<>();
         response.put("status", "success");
         response.put("message", "Order placed successfully!");
-        response.put("data", cart);
+        response.put("data", SavedOrder);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     

@@ -21,6 +21,8 @@ public @Data class OrderItem {
 	
 	private Long productId;
 	
+	private String imgUrl;
+	
 	private Integer quantity; 
 	
 	private double priceAtOrder; 
