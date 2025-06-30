@@ -31,6 +31,7 @@ public @Data  class Order {
 	
 	private LocalDateTime orderDate = LocalDateTime.now();
 	
+	private String orderAdress;
 	
 	@OneToMany(mappedBy ="order", cascade=CascadeType.ALL)
 	@JsonManagedReference

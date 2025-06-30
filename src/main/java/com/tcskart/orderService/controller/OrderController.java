@@ -49,7 +49,7 @@ public class OrderController {
 		}
 
     // View order history
-    @GetMapping("/orderhistory/{userid}")
+    @GetMapping("/orderhistories/{userid}")
     public ResponseEntity<Map<String, Object>> viewOrderhistory(@PathVariable Long userid) {
         List<Order> orderHistory = orderService.viewOrderhistory(userid);
         Collections.reverse(orderHistory);
@@ -70,9 +70,9 @@ public class OrderController {
     }
 
     // Place an order
-    @PostMapping("/place-order/{userId}")
-    public ResponseEntity<Map<String, Object>> placeOrder(@PathVariable Long userId) {
-        Order SavedOrder = orderService.placeOrder(userId);
+    @PostMapping("/orders/{userId}")
+    public ResponseEntity<Map<String, Object>> placeOrder(@PathVariable Long userId,@PathVariable String orderAddress) {
+        Order SavedOrder = orderService.placeOrder(userId,orderAddress);
         
         Map<String, Object> response = new HashMap<>();
         response.put("status", "success");
@@ -81,7 +81,7 @@ public class OrderController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    @GetMapping("/all-orderhistory")
+    @GetMapping("/orderhistories")
     public ResponseEntity<Map<String, Object>> allOrderHistory() {
     	
         List<Order> orderHistory = orderService.allOrderHistory();

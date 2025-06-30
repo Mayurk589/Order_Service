@@ -72,7 +72,7 @@ public class OrderService {
 		return orderHistory;
 	}
 
-	public Order placeOrder(Long userId) {
+	public Order placeOrder(Long userId,String orderAdress) {
 
 		Cart cart = getCartByUserId(userId);
 
@@ -84,6 +84,7 @@ public class OrderService {
 		order.setUserId(userId);
 		order.setTotalAmount(cart.getTotalPrice());
 		order.setOrderStatus("Order Placed");
+		order.setOrderAdress(orderAdress);
 
 		List<OrderItem> orderItems = new ArrayList<>();
 
