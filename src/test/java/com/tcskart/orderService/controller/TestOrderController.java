@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +85,6 @@ public class TestOrderController {
 
         
         ResponseEntity<Map<String, Object>> response = orderController.viewOrderhistory(1L);
-
         
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue((boolean) response.getBody().get("success"));
@@ -94,17 +94,56 @@ public class TestOrderController {
     @Test
     public void testViewOrderHistory_NotFound() {
         
-        when(orderService.viewOrderhistory(1L)).thenReturn(null);
+    	 Long userId = 1L;
+         when(orderService.viewOrderhistory(userId)).thenReturn(Collections.emptyList());
 
-       
-        ResponseEntity<Map<String, Object>> response = orderController.viewOrderhistory(1L);
-
-       
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+         ResponseEntity<Map<String, Object>> response = orderController.viewOrderhistory(userId);
+         assertEquals(HttpStatus.OK, response.getStatusCode());
+         assertEquals("No Order History Found", response.getBody().get("message"));
        
     }
     
+    @Test
+    public void testPlaceOrder_Success() {
+        Long userId = 1L;
+        String orderAddress = "123 Test St";
+        Order savedOrder = new Order();
+        savedOrder.setOrderId(1L);
+        savedOrder.setUserId(userId);
+        savedOrder.setOrderAdress(orderAddress);
+
+        when(orderService.placeOrder(userId, orderAddress)).thenReturn(savedOrder);
+
+        ResponseEntity<Map<String, Object>> response = orderController.placeOrder(userId, orderAddress);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+       
+    }
     
-    
+    @Test
+    public void testAllOrderHistory_Found() {
+        List<Order> mockOrderHistory = new ArrayList<>();
+        Order order1 = new Order();
+        order1.setOrderId(101L);
+        order1.setOrderAdress("Addr A");
+        mockOrderHistory.add(order1);
+        when(orderService.allOrderHistory()).thenReturn(mockOrderHistory);
+
+        ResponseEntity<Map<String, Object>> response = orderController.allOrderHistory();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
+    @Test
+    public void testAllOrderHistory_NoHistoryFound() {
+        when(orderService.allOrderHistory()).thenReturn(Collections.emptyList());
+
+        ResponseEntity<Map<String, Object>> response = orderController.allOrderHistory();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+       
+    }
 }
 
